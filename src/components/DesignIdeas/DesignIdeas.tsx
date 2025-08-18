@@ -51,15 +51,14 @@ const designCategories = [
 ];
 
 export default function DesignIdeas() {
-  const sectionRefs = designCategories.reduce((acc, cat) => {
-    acc[cat.id] = useRef<HTMLElement>(null);
-    return acc;
-  }, {} as Record<string, React.RefObject<HTMLElement>>);
-
-  const scrollTo = (id: string) => {
-    sectionRefs[id].current?.scrollIntoView({ behavior: "smooth" });
-  };
-
+    const sectionRefs = designCategories.reduce((acc, cat) => {
+      acc[cat.id] = useRef<HTMLElement>(null);
+      return acc;
+    }, {} as Record<string, React.RefObject<HTMLElement>>);
+  
+    const scrollTo = (id: string) => {
+      sectionRefs[id].current?.scrollIntoView({ behavior: "smooth" });
+    };
   return (
     <div className="bg-gray-50 min-h-screen">
     <nav className="bg-white py-4 px-6 md:px-16 flex items-center shadow-sm mb-8 max-w-6xl mx-auto">
