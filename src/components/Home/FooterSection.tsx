@@ -30,7 +30,7 @@ export default function PreFooterCTA() {
           </h2>
 
           <Link
-            href="#estimate"
+            href="/estimate"
             className="mt-6 inline-flex items-center justify-center rounded-lg px-8 py-4
                        text-base md:text-lg font-semibold text-white
                        bg-orange-500 hover:bg-orange-600 active:bg-orange-700

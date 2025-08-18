@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Home, Lightbulb, Calculator, MoreHorizontal, User, ShoppingBag, Gift } from "lucide-react";
+import { Home, Lightbulb, User, ShoppingBag, Gift, PhoneCallIcon } from "lucide-react";
 
 type Item = {
   name: string;
@@ -16,10 +16,10 @@ const desktopNav: Item[] = [
   { name: "Home", href: "/" },
   { name: "Design Ideas", href: "/design-ideas" },
   { name: "New Arrivals", href: "/new-section" },
-  { name: "Portfolio", href: "/portfolio" },
+  { name: "Portfolio", href: "/portfolio-section" },
   {
     name: "More",
-    href: "#",
+    href: "",
     dropdown: [
       { name: "Contact Us", href: "/contact" },
       { name: "About", href: "/about" },
@@ -116,7 +116,7 @@ export default function Navbar() {
             {/* Center: Logo */}
             <div className="flex flex-col items-center justify-start relative -mt-10">
               <Link
-                href="/begin"
+                href="/estimate"
                 className="block rounded-full border-2 border-orange-500 shadow-lg overflow-hidden bg-white"
               >
                 <Image
@@ -128,7 +128,7 @@ export default function Navbar() {
                 />
               </Link>
               <Link
-                href="/begin"
+                href="/estimate"
                 className="mt-1 text-[11px] font-semibold text-gray-900"
               >
                 LET&apos;S BEGIN
@@ -136,11 +136,11 @@ export default function Navbar() {
             </div>
 
             <Link
-              href="/shop-furnishings"
+              href="/contact"
               className="flex flex-col items-center justify-center text-[11px] font-medium text-gray-700 hover:text-orange-500 text-center"
             >
-              <ShoppingBag size={20} strokeWidth={2} />
-              <span className="mt-1">SHOP</span>
+              <PhoneCallIcon size={20} strokeWidth={2} />
+              <span className="mt-1">Contact</span>
             </Link>
 
             <Link

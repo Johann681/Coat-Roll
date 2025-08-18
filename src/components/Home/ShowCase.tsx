@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link"; 
 
 const images = [
   { src: "/livingroom1.jpg", title: "Modern Living Room" },
@@ -37,9 +38,11 @@ export default function ShowcaseSlider() {
           <p className="text-gray-600 mt-2">
             Latest dream home interiors delivered hassle-free
           </p>
+          <Link  href="/estimate">
           <button className="mt-4 px-6 py-2 bg-orange-500 text-white font-medium rounded-md shadow hover:bg-orange-600 transition">
             Get Free Quote
           </button>
+          </Link>
         </div>
 
         {/* Slider */}
@@ -71,12 +74,14 @@ export default function ShowcaseSlider() {
           </div>
 
           {/* Arrows */}
+       
           <button
             onClick={prevSlide}
             className="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition"
           >
             <ChevronLeft size={24} />
           </button>
+       
           <button
             onClick={nextSlide}
             className="absolute top-1/2 right-2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition"
