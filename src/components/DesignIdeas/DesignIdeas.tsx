@@ -51,7 +51,7 @@ const designCategories = [
 ];
 
 export default function DesignIdeas() {
-  // ✅ One hook call at the top
+  // store refs in an object
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const scrollTo = (id: string) => {
@@ -60,7 +60,7 @@ export default function DesignIdeas() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Navigation */}
+      {/* Navbar */}
       <nav className="bg-white py-4 px-6 md:px-16 flex items-center shadow-sm mb-8 max-w-6xl mx-auto">
         <ul className="flex flex-1 space-x-4 md:space-x-6 overflow-x-auto scrollbar-hide">
           {designCategories.map((cat) => (
@@ -85,10 +85,12 @@ export default function DesignIdeas() {
           Home Interior Design
         </h1>
         <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-          We bring you carefully-curated interior design ideas, to give your home a brand new look.
-          Explore exclusive interior designs and trends that are every bit inspirational as they are
-          practical. Our team of interior designers have put together ideas across kitchen, bedroom,
-          living room, bathroom, and outdoor spaces to help you pick a design that will best suit your home interior requirements.
+          We bring you carefully-curated interior design ideas, to give your
+          home a brand new look. Explore exclusive interior designs and trends
+          that are every bit inspirational as they are practical. Our team of
+          interior designers have put together ideas across kitchen, bedroom,
+          living room, bathroom, and outdoor spaces to help you pick a design
+          that will best suit your home interior requirements.
         </p>
       </section>
 
@@ -96,10 +98,14 @@ export default function DesignIdeas() {
       {designCategories.map((cat) => (
         <section
           key={cat.id}
-          ref={(el) => (sectionRefs.current[cat.id] = el)}
+          ref={(el) => {
+            sectionRefs.current[cat.id] = el;
+          }}
           className="max-w-6xl mx-auto py-12 px-6 md:px-16"
         >
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6">{cat.title}</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6">
+            {cat.title}
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {cat.images.map((img, idx) => (
               <div key={idx} className="flex flex-col items-start">
