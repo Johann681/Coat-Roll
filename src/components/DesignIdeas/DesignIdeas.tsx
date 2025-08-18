@@ -51,33 +51,33 @@ const designCategories = [
 ];
 
 export default function DesignIdeas() {
-    const sectionRefs = designCategories.reduce((acc, cat) => {
-      acc[cat.id] = useRef<HTMLElement>(null);
-      return acc;
-    }, {} as Record<string, React.RefObject<HTMLElement>>);
-  
-    const scrollTo = (id: string) => {
-      sectionRefs[id].current?.scrollIntoView({ behavior: "smooth" });
-    };
+  // ✅ One hook call at the top
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  const scrollTo = (id: string) => {
+    sectionRefs.current[id]?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen">
-    <nav className="bg-white py-4 px-6 md:px-16 flex items-center shadow-sm mb-8 max-w-6xl mx-auto">
-  <ul className="flex flex-1 space-x-4 md:space-x-6 overflow-x-auto scrollbar-hide">
-    {designCategories.map((cat) => (
-      <li key={cat.id}>
-        <button
-          className="text-gray-700 font-medium hover:text-orange-500 whitespace-nowrap"
-          onClick={() => scrollTo(cat.id)}
-        >
-          {cat.title}
+      {/* Navigation */}
+      <nav className="bg-white py-4 px-6 md:px-16 flex items-center shadow-sm mb-8 max-w-6xl mx-auto">
+        <ul className="flex flex-1 space-x-4 md:space-x-6 overflow-x-auto scrollbar-hide">
+          {designCategories.map((cat) => (
+            <li key={cat.id}>
+              <button
+                className="text-gray-700 font-medium hover:text-orange-500 whitespace-nowrap"
+                onClick={() => scrollTo(cat.id)}
+              >
+                {cat.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <button className="ml-4 flex-shrink-0 bg-orange-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-orange-600 transition-colors whitespace-nowrap">
+          CONSULT ONLINE NOW
         </button>
-      </li>
-    ))}
-  </ul>
-  <button className="ml-4 flex-shrink-0 bg-orange-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-orange-600 transition-colors whitespace-nowrap">
-    CONSULT ONLINE NOW
-  </button>
-</nav>
+      </nav>
 
       {/* Header & Text */}
       <section className="max-w-4xl mx-auto py-12 px-6 md:px-16 text-left">
@@ -96,7 +96,7 @@ export default function DesignIdeas() {
       {designCategories.map((cat) => (
         <section
           key={cat.id}
-          ref={sectionRefs[cat.id]}
+          ref={(el) => (sectionRefs.current[cat.id] = el)}
           className="max-w-6xl mx-auto py-12 px-6 md:px-16"
         >
           <h2 className="text-2xl md:text-3xl font-semibold mb-6">{cat.title}</h2>
