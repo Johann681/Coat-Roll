@@ -9,13 +9,18 @@ export default function WishlistSection() {
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
+  // ✅ Type the event properly
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+
+    // Example:
+    // toast.success("Login successful")
+    // router.push("/") // redirect to homepage
   };
 
   return (
@@ -36,7 +41,6 @@ export default function WishlistSection() {
 
         {/* Feature Cards */}
         <div className="space-y-10">
-          {/* Wishlist */}
           <div className="flex items-start space-x-4">
             <div className="bg-orange-100 p-3 rounded-2xl">
               <Heart className="w-7 h-7 text-orange-600" />
@@ -51,7 +55,6 @@ export default function WishlistSection() {
             </div>
           </div>
 
-          {/* Catalogue */}
           <div className="flex items-start space-x-4">
             <div className="bg-orange-100 p-3 rounded-2xl">
               <Sofa className="w-7 h-7 text-orange-600" />
@@ -66,7 +69,6 @@ export default function WishlistSection() {
             </div>
           </div>
 
-          {/* Free Quote */}
           <div className="flex items-start space-x-4">
             <div className="bg-orange-100 p-3 rounded-2xl">
               <Ruler className="w-7 h-7 text-orange-600" />
