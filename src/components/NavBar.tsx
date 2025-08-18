@@ -13,9 +13,9 @@ type Item = {
 };
 
 const desktopNav: Item[] = [
+  { name: "Home", href: "/" },
   { name: "Design Ideas", href: "/design-ideas" },
-  { name: "Shop Furnishings", href: "/shop-furnishings" },
-  { name: "New Arrivals", href: "/new-arrivals" },
+  { name: "New Arrivals", href: "/new-section" },
   { name: "Portfolio", href: "/portfolio" },
   {
     name: "More",
@@ -144,7 +144,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/new-arrivals"
+              href="/new-section"
               className="flex flex-col items-center justify-center text-[11px] font-medium text-gray-700 hover:text-orange-500"
             >
               <Gift size={20} strokeWidth={2} />
