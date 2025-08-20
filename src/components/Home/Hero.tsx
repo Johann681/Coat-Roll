@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import LINK from "next/link";
 
 export default function Hero() {
   return (
@@ -37,9 +38,12 @@ export default function Hero() {
         <p className="mt-6 text-gray-700 text-lg md:text-2xl max-w-md">
           Explore stunning interior ideas and design your dream home with our expert solutions.
         </p>
+        <LINK
+        href="/login">
         <button className="mt-8 px-8 py-4 bg-orange-500 text-white font-semibold rounded-xl shadow-lg hover:bg-orange-600 transition">
           Get Started
         </button>
+        </LINK>
       </div>
     </section>
   );

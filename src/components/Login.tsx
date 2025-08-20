@@ -1,32 +1,49 @@
 "use client";
 import { useState } from "react";
 import { Heart, Sofa, Ruler } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function WishlistSection() {
+  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [formData, setFormData] = useState({
     emailOrPhone: "",
     password: "",
     confirmPassword: "",
   });
 
-  // ✅ Type the event properly
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
 
-    // Example:
-    // toast.success("Login successful")
-    // router.push("/") // redirect to homepage
+    if (activeTab === "signup" && formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      // Simulate backend request
+      await new Promise((res) => setTimeout(res, 1000));
+
+      toast.success(
+        activeTab === "signin" ? "Signed in successfully!" : "Account created successfully!"
+      );
+
+      // Example: Redirect after login
+      // router.push("/")
+    } catch (error) {
+      toast.error("Something went wrong, please try again.");
+    }
   };
 
   return (
-    <section className="w-full h-screen bg-gray-50 flex">
-      {/* LEFT SIDE */}
-      <div className="flex-1 flex flex-col justify-center px-12 py-10 bg-white">
+    <section className="w-full min-h-screen bg-gray-50 flex flex-col lg:flex-row">
+      <Toaster position="top-right" />
+
+      {/* LEFT SIDE - hidden on mobile */}
+      <div className="hidden lg:flex flex-1 flex-col justify-center px-6 lg:px-12 py-10 bg-white">
         {/* Logo */}
         <div className="flex items-center space-x-3 mb-12">
           <img
@@ -34,9 +51,7 @@ export default function WishlistSection() {
             alt="Coat and Roll Logo"
             className="h-12 w-auto rounded-2xl"
           />
-          <h1 className="text-3xl font-bold text-orange-600">
-            Coat and Roll
-          </h1>
+          <h1 className="text-3xl font-bold text-orange-600">Coat and Roll</h1>
         </div>
 
         {/* Feature Cards */}
@@ -46,9 +61,7 @@ export default function WishlistSection() {
               <Heart className="w-7 h-7 text-orange-600" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900">
-                Create a Wishlist
-              </h3>
+              <h3 className="text-xl font-semibold text-gray-900">Create a Wishlist</h3>
               <p className="text-gray-600 text-base">
                 Beautiful home interiors to seek inspiration from
               </p>
@@ -60,9 +73,7 @@ export default function WishlistSection() {
               <Sofa className="w-7 h-7 text-orange-600" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900">
-                Browse Catalogue
-              </h3>
+              <h3 className="text-xl font-semibold text-gray-900">Browse Catalogue</h3>
               <p className="text-gray-600 text-base">
                 Widest range of paints, décor and modular products
               </p>
@@ -74,9 +85,7 @@ export default function WishlistSection() {
               <Ruler className="w-7 h-7 text-orange-600" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900">
-                Get Free Quote
-              </h3>
+              <h3 className="text-xl font-semibold text-gray-900">Get Free Quote</h3>
               <p className="text-gray-600 text-base">
                 Review quotes tailored for your home interiors
               </p>
@@ -86,11 +95,32 @@ export default function WishlistSection() {
       </div>
 
       {/* RIGHT SIDE - FORM */}
-      <div className="flex-1 flex flex-col justify-center px-12 py-10 bg-gray-100">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-          Sign In / Sign Up
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-6 max-w-md">
+      <div className="flex-1 w-full flex flex-col justify-center px-6 lg:px-12 py-10 bg-gray-100">
+        {/* Tabs */}
+        <div className="flex space-x-6 mb-8">
+          <button
+            onClick={() => setActiveTab("signin")}
+            className={`pb-2 text-lg font-medium ${
+              activeTab === "signin"
+                ? "text-orange-600 border-b-2 border-orange-600"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => setActiveTab("signup")}
+            className={`pb-2 text-lg font-medium ${
+              activeTab === "signup"
+                ? "text-orange-600 border-b-2 border-orange-600"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Sign Up
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6 max-w-md w-full">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email / Mobile Number
@@ -107,9 +137,7 @@ export default function WishlistSection() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
               name="password"
@@ -121,26 +149,28 @@ export default function WishlistSection() {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full mt-1 p-4 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none"
-              placeholder="Confirm password"
-              required
-            />
-          </div>
+          {activeTab === "signup" && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full mt-1 p-4 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                placeholder="Confirm password"
+                required
+              />
+            </div>
+          )}
 
           <button
             type="submit"
             className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-4 rounded-xl transition"
           >
-            Continue
+            {activeTab === "signin" ? "Sign In" : "Sign Up"}
           </button>
         </form>
 
