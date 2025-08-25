@@ -16,7 +16,7 @@ export default function Hero() {
           transition={{ duration: 5, repeat: Infinity, repeatType: "mirror" }}
           className="relative w-[28rem] h-[20rem] md:w-[36rem] md:h-[24rem] shadow-2xl rounded-xl overflow-hidden"
         >
-          <Image src="/livingroom1.jpg" alt="Living Room" fill className="object-cover" />
+          <Image src="/working.png" alt="Living Room" fill className="object-cover" />
         </motion.div>
 
         {/* Bedroom */}
@@ -26,7 +26,7 @@ export default function Hero() {
           transition={{ duration: 6, repeat: Infinity, repeatType: "mirror" }}
           className="relative w-[24rem] h-[16rem] md:w-[32rem] md:h-[20rem] shadow-2xl rounded-xl overflow-hidden absolute top-32 left-0 md:left-16"
         >
-          <Image src="/bedroom1.jpg" alt="Bedroom" fill className="object-cover" />
+          <Image src="/working2.png" alt="Bedroom" fill className="object-cover" />
         </motion.div>
       </div>
 
