@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Home, Lightbulb, User, ShoppingBag, Gift, PhoneCallIcon } from "lucide-react";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 type Item = {
   name: string;
@@ -144,11 +145,11 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/new-section"
+              href="/about"
               className="flex flex-col items-center justify-center text-[11px] font-medium text-gray-700 hover:text-orange-500"
             >
-              <Gift size={20} strokeWidth={2} />
-              <span className="mt-1">NEW</span>
+              <AiOutlineInfoCircle size={20} strokeWidth={2} />
+              <span className="mt-1">About</span>
             </Link>
           </div>
         </div>

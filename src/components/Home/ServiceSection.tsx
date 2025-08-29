@@ -35,9 +35,9 @@ export default function ServicesSection() {
         One-stop shop for all things interiors
       </h2>
       <p className="text-gray-700 text-lg md:text-xl max-w-3xl mb-12 text-center md:text-left">
-        Be it end-to-end interiors, renovation or modular solutions, we have it all for your
-        home or office. With a wide range of furniture & decor, we have your back from start to
-        finish.
+        Be it end-to-end interiors, renovation or modular solutions, we have it
+        all for your home or office. With a wide range of furniture & decor, we
+        have your back from start to finish.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -57,12 +57,13 @@ export default function ServicesSection() {
             </div>
             <div className="p-4 flex flex-col justify-between h-40">
               <div>
-                <h3 className="font-semibold text-lg text-gray-900 mb-2">{service.title}</h3>
+                <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                  {service.title}
+                </h3>
                 <p className="text-gray-600 text-sm">{service.desc}</p>
               </div>
               <div className="mt-4 flex items-center text-orange-500 font-medium hover:underline cursor-pointer">
-                <span>Explore</span>
-                <ChevronRight size={16} className="ml-1" />
+          
               </div>
             </div>
           </div>

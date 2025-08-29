@@ -25,9 +25,9 @@ export default function PortfolioSection() {
     <section className="py-16 px-6 max-w-6xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Livspace Portfolio</h1>
+        <h1 className="text-4xl font-bold mb-4">Coat&Roll Portfolio</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Proposed and completed residential projects by Livspace, featuring
+          Proposed and completed residential projects by Coat&Roll, featuring
           innovative designs, latest trends, and personalized aesthetics to
           match your lifestyle.
         </p>

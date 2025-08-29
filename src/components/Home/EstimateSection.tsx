@@ -63,9 +63,7 @@ export default function EstimateSection() {
                 {card.title}
               </h3>
               <p className="text-gray-600 mb-4">{card.desc}</p>
-              <button className="mt-auto inline-flex items-center text-orange-500 font-medium hover:underline">
-                Calculate <span className="ml-2">›</span>
-              </button>
+       
             </motion.div>
           ))}
         </div>

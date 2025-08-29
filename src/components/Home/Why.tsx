@@ -10,15 +10,15 @@ type Feature = {
 };
 
 const features: Feature[] = [
-  { label: "Flat 10-year warranty", number: 10 },
+  { label: "Flat 10-year warranty", number: 2 },
   { label: "Flexible Payments" },
   { label: "45-day move-in guarantee", number: 45 },
   { label: "Quality Checks", number: 146 },
-  { label: "Happy Homes", number: 1000 },
+  { label: "Happy Homes", number: 160  },
   { label: "Cities", number: 60 },
-  { label: "Countries", number: 3 },
-  { label: "Catalogue Products", number: "2,000,000+" },
-  { label: "Designers", number: 3500 },
+  { label: "Countries", number: 2 },
+  { label: "Catalogue Products", number: "200+" },
+  { label: "Designers", number: 60 },
 ];
 
 export default function Why() {
