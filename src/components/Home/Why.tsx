@@ -15,10 +15,10 @@ const features: Feature[] = [
   { label: "45-day move-in guarantee", number: 45 },
   { label: "Quality Checks", number: 146 },
   { label: "Happy Homes", number: 160  },
-  { label: "Cities", number: 60 },
-  { label: "Countries", number: 2 },
+  { label: "States", number: 36 },
+  { label: "Years of Experience", number: 12 },
   { label: "Catalogue Products", number: "200+" },
-  { label: "Designers", number: 60 },
+  { label: "Designers", number: 40},
 ];
 
 export default function Why() {
