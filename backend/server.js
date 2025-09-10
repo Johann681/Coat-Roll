@@ -28,9 +28,9 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/estimate", estimateRoutes);
 
-// Server listen
+// Server listen (Render requires 0.0.0.0 + dynamic PORT)
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🔥 Server running on port ${PORT}`);
   console.log(`📩 Email user: ${process.env.EMAIL_USER ? "Loaded ✅" : "Missing ❌"}`);
   console.log(`🌍 Mongo URL: ${process.env.MONGO_URI ? "Loaded ✅" : "Missing ❌"}`);
