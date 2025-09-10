@@ -6,6 +6,9 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
+// Use environment variable for API URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function WishlistSection() {
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [formData, setFormData] = useState({
@@ -31,39 +34,34 @@ export default function WishlistSection() {
 
     setLoading(true);
     try {
+      if (!API_URL) throw new Error("API_URL is not defined");
+
       if (activeTab === "signup") {
-        // register API
-        const res = await axios.post("http://localhost:5000/api/auth/register", {
+        // Register API
+        const res = await axios.post(`${API_URL}/auth/register`, {
           name: formData.name,
           email: formData.emailOrPhone,
           password: formData.password,
         });
 
         toast.success(res.data.message || "Account created successfully!");
-        // auto-switch to signin
         setTimeout(() => setActiveTab("signin"), 1500);
       } else {
-        // login API
-        const res = await axios.post("http://localhost:5000/api/auth/login", {
+        // Login API
+        const res = await axios.post(`${API_URL}/auth/login`, {
           email: formData.emailOrPhone,
           password: formData.password,
         });
 
         toast.success(res.data.message || "Signed in successfully!");
 
-        // ✅ Save user + token to localStorage so Hero can access it
-        if (res.data.user) {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-        }
-        if (res.data.token) {
-          localStorage.setItem("token", res.data.token);
-        }
+        if (res.data.user) localStorage.setItem("user", JSON.stringify(res.data.user));
+        if (res.data.token) localStorage.setItem("token", res.data.token);
 
-        // redirect to home
         setTimeout(() => router.push("/"), 1500);
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || error.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import PhoneInput from "react-phone-input-2";
+import API_URL from "@/app/utils/api";
 
 interface QuoteFormProps {
   imageSrc: string;
@@ -36,7 +37,7 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/estimate", {
+      const res = await fetch(`${API_URL}/estimate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -46,7 +47,7 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
 
       if (res.ok) {
         toast.success(result.message || "Request submitted successfully!");
-        setFormData({ name: "", email: "", phone: "", property: "" });
+        setFormData({ name: "", email: "", phone: "", property: "" }); // reset
       } else {
         toast.error(result.error || "Failed to submit request");
       }
