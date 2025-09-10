@@ -4,8 +4,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Home, Lightbulb, User, ShoppingBag, Gift, PhoneCallIcon } from "lucide-react";
+import { Home, Lightbulb, User, ShoppingBag, Gift, PhoneCallIcon, PhoneCall } from "lucide-react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { Calligraffitti } from "next/font/google";
 
 type Item = {
   name: string;
@@ -85,11 +86,11 @@ export default function Navbar() {
 
           {/* Login / CTA */}
           <Link
-            href="/login"
+            href="/contact"
             className="flex items-center space-x-1 text-sm font-medium text-gray-700 hover:text-orange-500"
           >
-            <User size={18} />
-            <span>Login</span>
+            <PhoneCall size={18} />
+            <span>Contact us</span>
           </Link>
         </div>
       </nav>

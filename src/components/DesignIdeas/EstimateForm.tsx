@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import PhoneInput from "react-phone-input-2";
 
 interface QuoteFormProps {
@@ -15,6 +15,7 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
     phone: "",
     property: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,32 +27,45 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Frontend validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.property) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    setLoading(true);
     try {
-      const res = await fetch("/api/estimate", {
+      const res = await fetch("http://localhost:5000/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+
       const result = await res.json();
+
       if (res.ok) {
-        toast.success(result.message);
+        toast.success(result.message || "Request submitted successfully!");
         setFormData({ name: "", email: "", phone: "", property: "" });
       } else {
-        toast.error(result.error || "Failed to submit");
+        toast.error(result.error || "Failed to submit request");
       }
-    } catch (err) {
-      toast.error("Something went wrong");
-      console.error(err);
+    } catch (err: unknown) {
+      console.error("QuoteForm Error:", err);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <section className="bg-gray-50 py-16">
+      <Toaster position="top-right" />
       <div className="container mx-auto flex flex-col md:flex-row items-stretch gap-6 px-4 max-w-5xl">
         {/* Image Left */}
         <div className="w-full md:w-2/5 rounded-xl overflow-hidden shadow-2xl flex-shrink-0">
           <img
-            src="/formimg.png"
+            src={imageSrc || "/formimg.png"}
             alt="Design Inspiration"
             className="w-full h-full object-cover rounded-xl"
           />
@@ -106,9 +120,10 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition-all font-semibold"
             >
-              Get Free Quote
+              {loading ? "Submitting..." : "Get Free Quote"}
             </button>
           </form>
 

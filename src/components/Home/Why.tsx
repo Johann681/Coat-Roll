@@ -17,7 +17,6 @@ const features: Feature[] = [
   { label: "Happy Homes", number: 160  },
   { label: "States", number: 36 },
   { label: "Years of Experience", number: 12 },
-  { label: "Catalogue Products", number: "200+" },
   { label: "Designers", number: 40},
 ];
 

@@ -27,7 +27,7 @@ export default function Footer() {
               <FiPhone className="text-orange-500 text-lg" /> 08166187798
             </li>
             <li className="flex items-center gap-3">
-              <FiMail className="text-orange-500 text-lg" /> Cut_Roll@gmail.com
+              <FiMail className="text-orange-500 text-lg" />coatandroll@gmail.com
             </li>
             <li className="flex items-center gap-3">
               <FiMapPin className="text-orange-500 text-lg" /> Lagos, Nigeria
