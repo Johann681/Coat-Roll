@@ -10,7 +10,7 @@ type Feature = {
 };
 
 const features: Feature[] = [
-  { label: "Flat 10-year warranty", number: 2 },
+  { label: "Flat 2-year warranty", number: 2 },
   { label: "Flexible Payments" },
   { label: "45-day move-in guarantee", number: 45 },
   { label: "Quality Checks", number: 146 },
