@@ -19,7 +19,7 @@ const services = [
   {
     title: "Luxury Interiors",
     desc: "Tailored interiors that redefine elegance",
-    images: ["/toilet1.jpg", "/toilet2.jpg"],
+    images: ["/luxry.jpg", "/toilet2.jpg"],
   },
   {
     title: "Renovations",

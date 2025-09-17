@@ -10,9 +10,7 @@ interface NewsItem {
 }
 
 const latestNews: NewsItem[] = [
-  { id: 1, title: "Modern Living Room Ideas", description: "Explore the latest trends in living room designs and get inspired for your home makeover.", image: "/livingroom4.jpg" },
-  { id: 2, title: "Bedroom Renovation Tips", description: "Make your bedroom cozy and stylish with minimal effort and maximum impact.", image: "/bedroom4.jpg" },
-  { id: 3, title: "Kitchen Makeover Inspiration", description: "Upgrade your kitchen with functional and aesthetic designs that suit every style.", image: "/toilet4.jpg" },
+ 
 ];
 
 export default function WhatsNew() {

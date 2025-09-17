@@ -101,7 +101,7 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
               required
             />
             <PhoneInput
-              country={"us"}
+              country={"ng"}
               value={formData.phone}
               onChange={handlePhoneChange}
               inputProps={{ name: "phone", required: true }}

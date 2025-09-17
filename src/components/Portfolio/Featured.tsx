@@ -1,91 +1,86 @@
 // components/FeaturedProjects.tsx
 "use client";
-import { useState } from "react";
+
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 const projects = [
   {
     id: 1,
     image: "/livingroom1.jpg",
-    title: "Modern Living Room",
-    description: "A cozy yet modern living room design with warm tones and elegant furniture.",
-  },
+    title: "Modern Living Room"  },
   {
     id: 2,
     image: "/bedroom4.jpg",
-    title: "Luxury Bedroom",
-    description: "A serene and luxurious bedroom with subtle lighting and minimal design.",
+    title: "Luxury Bedroom"
+
   },
   {
     id: 3,
-    image: "/kitchen1.jpg",
-    title: "Contemporary Kitchen",
-    description: "Open-style modular kitchen with sleek cabinets and spacious counters.",
+    image: "/indoor99.jpg",
+    title: "Crispy Finishing"
+ 
   },
   {
     id: 4,
-    image: "/bedroom5.jpg",
-    title: "Elegant Bathroom",
-    description: "A modern bathroom with clean aesthetics and functional layout.",
+    image: "/outdoor99.jpg",
+    title: "Long lasting finish"
+   
   },
+  {
+    id: 5,
+    image: "/finished1.jpg",
+    title: "Long lasting finish"
+   
+  },
+  {
+    id: 6,
+    image: "/finished2.jpg",
+    title: "Long lasting finish"
+   
+  }
 ];
 
 export default function FeaturedProjects() {
-  const [index, setIndex] = useState(0);
-
-  const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % projects.length);
-  };
-
-  const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + projects.length) % projects.length);
-  };
+  const [selected, setSelected] = useState<number | null>(null);
 
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-6xl mx-auto px-6 text-center">
         {/* Header */}
         <h2 className="text-3xl font-bold mb-2">
-          Featured Projects: <span className="text-orange-500">Delivered by Coat&Roll</span>
+          Our <span className="text-orange-500">Completed Projects</span>
         </h2>
-        <p className="text-gray-600 mb-8">
-          Discover some of our finest works crafted with passion, precision, and creativity.
+        <p className="text-gray-600 mb-12">
+          A glimpse of the beautiful spaces we’ve transformed with passion and
+          precision.
         </p>
 
-        {/* Carousel */}
-        <div className="relative overflow-hidden">
-          <motion.div
-            key={index}
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -100, opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex justify-center"
-          >
-            <div className="w-full md:w-2/3 bg-white shadow-lg rounded-2xl overflow-hidden">
-              <img src={projects[index].image} alt={projects[index].title} className="w-full h-64 object-cover" />
-              <div className="p-6 text-left">
-                <h3 className="text-xl font-semibold">{projects[index].title}</h3>
-                <p className="text-gray-600 mt-2">{projects[index].description}</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Controls */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-3 rounded-full"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-3 rounded-full"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {projects.map((project, i) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="relative group cursor-pointer overflow-hidden rounded-xl shadow-lg"
+              onClick={() => setSelected(project.id)}
+            >
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={500}
+                height={350}
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+          
+            </motion.div>
+          ))}
         </div>
+
+      
       </div>
     </section>
   );

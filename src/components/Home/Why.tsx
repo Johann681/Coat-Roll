@@ -1,84 +1,85 @@
-// components/WhyChooseUs.tsx
+// components/OurValues.tsx
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
+import { useRef } from "react";
+import {
+  ShieldCheck,
+  HeartHandshake,
+  CircleDollarSign,
+  Clock,
+  Palette,
+  Leaf,
+  Headphones,
+  Sparkles,
+} from "lucide-react";
 
-type Feature = {
-  label: string;
-  number?: number | string;
-};
-
-const features: Feature[] = [
-  { label: "Flat 2-year warranty", number: 2 },
-  { label: "Flexible Payments" },
-  { label: "45-day move-in guarantee", number: 45 },
-  { label: "Quality Checks", number: 146 },
-  { label: "Happy Homes", number: 160  },
-  { label: "States", number: 36 },
-  { label: "Years of Experience", number: 12 },
-  { label: "Designers", number: 40},
+const values = [
+  { label: "Quality Craftsmanship", icon: ShieldCheck },
+  { label: "Customer-First Approach", icon: HeartHandshake },
+  { label: "Transparent Pricing", icon: CircleDollarSign },
+  { label: "On-Time Delivery", icon: Clock },
+  { label: "Creative Designs", icon: Palette },
+  { label: "Sustainable Practices", icon: Leaf },
+  { label: "Dedicated Support", icon: Headphones },
+  { label: "Attention to Detail", icon: Sparkles },
 ];
 
-export default function Why() {
+export default function OurValues() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const controls = useAnimation();
 
-  // create state for each numeric feature
-  const [counts, setCounts] = useState<number[]>(features.map(f => (typeof f.number === "number" ? 0 : -1)));
-
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-
-      // start count up
-      features.forEach((f, idx) => {
-        if (typeof f.number === "number") {
-          let start = 0;
-          const end = f.number;
-          const duration = 1000; // 1s
-          const stepTime = Math.max(Math.floor(duration / end), 20);
-
-          const timer = setInterval(() => {
-            start += 1;
-            setCounts(prev => {
-              const newCounts = [...prev];
-              newCounts[idx] = start;
-              return newCounts;
-            });
-            if (start >= end) clearInterval(timer);
-          }, stepTime);
-        }
-      });
-    }
-  }, [inView, controls]);
+  if (inView) {
+    controls.start("visible");
+  }
 
   return (
-    <section ref={ref} className="w-full py-16 bg-gray-50 px-6 md:px-16">
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-        Why Choose Us
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8">
-        {features.map((feature, i) => (
-          <motion.div
-            key={i}
-            initial={{ y: 20, opacity: 0 }}
-            animate={controls}
-            variants={{
-              visible: { y: 0, opacity: 1, transition: { delay: i * 0.1 } },
-            }}
-            className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-default hover:scale-105 transition-transform"
-          >
-            {typeof feature.number === "number" && (
-              <span className="text-2xl md:text-3xl font-bold text-orange-500 mb-2">
-                {counts[i]}
-              </span>
-            )}
-            <span className="text-gray-800 font-medium">{feature.label}</span>
-          </motion.div>
-        ))}
+    <section
+      ref={ref}
+      className="relative w-full py-20 px-6 md:px-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden"
+    >
+      <div className="relative z-10 text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+          Our Values
+        </h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          The principles that guide everything we do, from design to delivery.
+        </p>
       </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {values.map((value, i) => {
+          const Icon = value.icon;
+          return (
+            <motion.div
+              key={i}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={controls}
+              variants={{
+                visible: {
+                  scale: 1,
+                  opacity: 1,
+                  transition: { delay: i * 0.1, duration: 0.4 },
+                },
+              }}
+              className="group relative bg-white/70 backdrop-blur-md border border-gray-200 rounded-2xl p-8 flex flex-col items-center text-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
+            >
+              <div className="w-14 h-14 mb-4 flex items-center justify-center rounded-full bg-gradient-to-r from-orange-400 to-pink-500 text-white shadow-md group-hover:scale-110 transition-transform">
+                <Icon size={28} />
+              </div>
+              <span className="text-lg font-semibold text-gray-800">
+                {value.label}
+              </span>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Subtle background shapes */}
+      <div className="absolute top-0 left-0 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" />
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" />
     </section>
   );
 }

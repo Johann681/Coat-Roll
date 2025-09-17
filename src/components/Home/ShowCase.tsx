@@ -8,12 +8,9 @@ const images = [
   { src: "/livingroom2.jpg", title: "Elegant Living Room" },
   { src: "/bedroom1.jpg", title: "Cozy Bedroom" },
   { src: "/bedroom2.jpg", title: "Minimalist Bedroom" },
-  { src: "/kitchen1.jpg", title: "Spacious Kitchen" },
-  { src: "/toilet1.jpg", title: "Modern Bathroom" },
-  { src: "/livingroom3.jpg", title: "Luxury Living Room" },
-  { src: "/bedroom3.jpg", title: "Rustic Bedroom" },
-  { src: "/kitchen2.jpg", title: "Contemporary Kitchen" },
-  { src: "/toilet2.jpg", title: "Compact Toilet" },
+
+  { src: "/luxlive.jpg", title: "Luxury Living Room" },
+
 ];
 
 export default function ShowcaseSlider() {
