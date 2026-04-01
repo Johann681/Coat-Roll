@@ -6,8 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-// Use environment variable for API URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import API_URL from "@/app/utils/api";
 
 export default function WishlistSection() {
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
@@ -38,20 +37,28 @@ export default function WishlistSection() {
 
       if (activeTab === "signup") {
         // Register API
-        const res = await axios.post(`${API_URL}/auth/register`, {
-          name: formData.name,
-          email: formData.emailOrPhone,
-          password: formData.password,
-        });
+        const res = await axios.post(
+          `${API_URL}/auth/register`,
+          {
+            name: formData.name,
+            email: formData.emailOrPhone,
+            password: formData.password,
+          },
+          { withCredentials: true }
+        );
 
         toast.success(res.data.message || "Account created successfully!");
         setTimeout(() => setActiveTab("signin"), 1500);
       } else {
         // Login API
-        const res = await axios.post(`${API_URL}/auth/login`, {
-          email: formData.emailOrPhone,
-          password: formData.password,
-        });
+        const res = await axios.post(
+          `${API_URL}/auth/login`,
+          {
+            email: formData.emailOrPhone,
+            password: formData.password,
+          },
+          { withCredentials: true }
+        );
 
         toast.success(res.data.message || "Signed in successfully!");
 

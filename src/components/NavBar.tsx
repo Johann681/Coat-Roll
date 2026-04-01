@@ -4,9 +4,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Home, Lightbulb, User, ShoppingBag, Gift, PhoneCallIcon, PhoneCall } from "lucide-react";
+import { Home, Lightbulb, User, PhoneCall, LogOut, X } from "lucide-react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { Calligraffitti } from "next/font/google";
+import { useEffect } from "react";
 
 type Item = {
   name: string;
@@ -31,6 +31,25 @@ const desktopNav: Item[] = [
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+  const [mounted, setMounted] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser(null);
+    setShowConfirm(false);
+    window.location.reload();
+  };
 
   return (
     <>
@@ -85,14 +104,84 @@ export default function Navbar() {
           </div>
 
           {/* Login / CTA */}
-          <Link
-            href="/contact"
-            className="flex items-center space-x-1 text-sm font-medium text-gray-700 hover:text-orange-500"
-          >
-            <PhoneCall size={18} />
-            <span>Contact us</span>
-          </Link>
+          <div className="flex items-center space-x-6">
+            <Link
+              href="/contact"
+              className="flex items-center space-x-1 text-sm font-medium text-gray-700 hover:text-orange-500"
+            >
+              <PhoneCall size={18} />
+              <span>Contact us</span>
+            </Link>
+
+            {mounted && (
+              <>
+                {user ? (
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2 border-l pl-4 border-gray-200">
+                      <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-sm">
+                        {user.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 hidden lg:inline">
+                        {user.name}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setShowConfirm(true)}
+                      className="text-gray-500 hover:text-red-500 p-1 transition-colors"
+                      title="Sign Out"
+                    >
+                      <LogOut size={20} />
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition"
+                  >
+                    Sign In
+                  </Link>
+                )}
+              </>
+            )}
+          </div>
         </div>
+
+        {/* SIGN OUT CONFIRMATION MODAL */}
+        {showConfirm && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[100]">
+            <div className="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform transition-all scale-100 opacity-100">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-red-100 rounded-xl text-red-600">
+                  <LogOut size={24} />
+                </div>
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="text-gray-400 hover:text-gray-600 p-1"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Sign Out</h3>
+              <p className="text-gray-600 mb-6 font-medium">
+                Are you sure you want to sign out of your account?
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="flex-1 px-4 py-3 bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 transition shadow-lg shadow-red-200"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* MOBILE BOTTOM DOCK */}
@@ -115,25 +204,26 @@ export default function Navbar() {
               <span className="mt-1">IDEAS</span>
             </Link>
 
-            {/* Center: Logo */}
-            <div className="flex flex-col items-center justify-start relative -mt-10">
+            {/* Center: FAB */}
+            <div className="flex flex-col items-center justify-start relative -mt-12">
               <Link
                 href="/estimate"
-                className="block rounded-full border-2 border-orange-500 shadow-lg overflow-hidden bg-white"
+                className="block rounded-full border-4 border-white shadow-xl overflow-hidden bg-orange-500 p-0.5 transform hover:scale-105 transition active:scale-95"
               >
-                <Image
-                  src="/coat&roll.png"
-                  alt="Coat&Roll"
-                  width={64}
-                  height={64}
-                  className="rounded-full"
-                />
+                <div className="rounded-full overflow-hidden w-14 h-14 bg-white relative">
+                  <Image
+                    src="/coat&roll.png"
+                    alt="Coat&Roll"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </Link>
               <Link
                 href="/estimate"
-                className="mt-1 text-[11px] font-semibold text-gray-900"
+                className="mt-1 text-[10px] font-extrabold text-orange-600 tracking-tighter"
               >
-                LET&apos;S BEGIN
+                BEGIN
               </Link>
             </div>
 
@@ -141,17 +231,27 @@ export default function Navbar() {
               href="/contact"
               className="flex flex-col items-center justify-center text-[11px] font-medium text-gray-700 hover:text-orange-500 text-center"
             >
-              <PhoneCallIcon size={20} strokeWidth={2} />
+              <PhoneCall size={20} strokeWidth={2} />
               <span className="mt-1">Contact</span>
             </Link>
 
-            <Link
-              href="/about"
-              className="flex flex-col items-center justify-center text-[11px] font-medium text-gray-700 hover:text-orange-500"
-            >
-              <AiOutlineInfoCircle size={20} strokeWidth={2} />
-              <span className="mt-1">About</span>
-            </Link>
+            {mounted && user ? (
+              <button
+                onClick={() => setShowConfirm(true)}
+                className="flex flex-col items-center justify-center text-[10px] font-bold text-gray-600 hover:text-red-500 transition-colors"
+              >
+                <LogOut size={22} strokeWidth={2.5} />
+                <span className="mt-1 tracking-tighter">LOGOUT</span>
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="flex flex-col items-center justify-center text-[10px] font-bold text-gray-600 hover:text-orange-500 transition-colors"
+              >
+                <User size={22} strokeWidth={2.5} />
+                <span className="mt-1 tracking-tighter">SIGN IN</span>
+              </Link>
+            )}
           </div>
         </div>
       </nav>

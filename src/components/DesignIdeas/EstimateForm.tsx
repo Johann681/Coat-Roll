@@ -17,13 +17,19 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
     property: "",
   });
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setSuccessMessage("");
+    setErrorMessage("");
   };
 
   const handlePhoneChange = (value: string) => {
     setFormData({ ...formData, phone: value });
+    setSuccessMessage("");
+    setErrorMessage("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,24 +42,33 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
     }
 
     setLoading(true);
+    setSuccessMessage("");
+    setErrorMessage("");
     try {
       const res = await fetch(`${API_URL}/estimate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
 
       const result = await res.json();
 
       if (res.ok) {
+        const msg = "Your request was submitted! We'll contact you within 24 hours.";
+        setSuccessMessage(msg);
         toast.success(result.message || "Request submitted successfully!");
         setFormData({ name: "", email: "", phone: "", property: "" }); // reset
       } else {
-        toast.error(result.error || "Failed to submit request");
+        const errorMsg = result.error || "Failed to submit request";
+        setErrorMessage(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (err: unknown) {
       console.error("QuoteForm Error:", err);
-      toast.error("Something went wrong. Please try again.");
+      const fallbackMsg = "Something went wrong. Please try again.";
+      setErrorMessage(fallbackMsg);
+      toast.error(fallbackMsg);
     } finally {
       setLoading(false);
     }
@@ -118,6 +133,17 @@ export default function QuoteForm({ imageSrc }: QuoteFormProps) {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
               required
             />
+
+            {successMessage && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm font-medium">
+                {successMessage}
+              </div>
+            )}
+            {errorMessage && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm font-medium">
+                {errorMessage}
+              </div>
+            )}
 
             <button
               type="submit"

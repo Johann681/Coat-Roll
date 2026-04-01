@@ -62,31 +62,33 @@ export default function DesignIdeas() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-     {/* Navbar */}
-<nav className="bg-white py-4 px-4 sm:px-6 md:px-16 flex flex-col md:flex-row items-center shadow-sm mb-8 max-w-6xl mx-auto">
-  {/* Left: Categories */}
-  <ul className="flex flex-1 space-x-4 md:space-x-6 overflow-x-auto scrollbar-hide py-2 md:py-0 w-full md:w-auto">
-    {designCategories.map((cat) => (
-      <li key={cat.id}>
-        <button
-          className="text-gray-700 font-medium hover:text-orange-500 whitespace-nowrap px-2 py-1 rounded-md transition-colors"
-          onClick={() => scrollTo(cat.id)}
-        >
-          {cat.title}
-        </button>
-      </li>
-    ))}
-  </ul>
+      {/* Category Sub-Nav (Sticky) */}
+      <nav className="sticky top-16 z-30 bg-white/90 backdrop-blur-md py-4 px-6 md:px-16 flex flex-col md:flex-row items-center border-b border-gray-200">
+        <div className="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center">
+          {/* Left: Categories */}
+          <ul className="flex flex-1 space-x-6 overflow-x-auto scrollbar-hide py-2 md:py-0 w-full md:w-auto no-scrollbar">
+            {designCategories.map((cat) => (
+              <li key={cat.id}>
+                <button
+                  className="text-gray-600 font-bold hover:text-orange-600 whitespace-nowrap px-3 py-2 rounded-xl transition-all hover:bg-orange-50 active:scale-95"
+                  onClick={() => scrollTo(cat.id)}
+                >
+                  {cat.title}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-  {/* Right: Action Button */}
-  <div className="mt-2 md:mt-0 md:ml-4 flex-shrink-0 w-full md:w-auto">
-    <Link href="/about" >
-    <button className="w-full md:w-auto bg-orange-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-orange-600 transition-colors whitespace-nowrap">
-      About Us
-    </button>
-    </Link>
-  </div>
-</nav>
+          {/* Right: Action Button */}
+          <div className="mt-4 md:mt-0 md:ml-8 flex-shrink-0 w-full md:w-auto">
+            <Link href="/about">
+              <button className="w-full md:w-auto bg-gray-900 text-white font-bold py-2.5 px-8 rounded-xl hover:bg-orange-600 transition-all shadow-lg active:scale-95">
+                About Us
+              </button>
+            </Link>
+          </div>
+        </div>
+      </nav>
 
 
       {/* Header & Text */}
@@ -116,19 +118,23 @@ export default function DesignIdeas() {
           <h2 className="text-2xl md:text-3xl font-semibold mb-6">
             {cat.title}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {cat.images.map((img, idx) => (
-              <div key={idx} className="flex flex-col items-start">
-                <div className="relative w-full h-40 sm:h-48 rounded-lg overflow-hidden shadow-sm">
+              <div key={idx} className="group flex flex-col items-start">
+                <div className="relative w-full h-56 rounded-2xl overflow-hidden shadow-md group-hover:shadow-xl transition-all duration-500">
                   <Image
                     src={img.src}
                     alt={`${cat.title} design ${idx + 1}`}
                     fill
-                    className="object-cover transition-transform duration-300 hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                   />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-                <p className="text-sm text-gray-600 mt-2">{img.text}</p>
+                <p className="text-sm font-semibold text-gray-700 mt-3 group-hover:text-orange-600 transition-colors">
+                  {img.text}
+                </p>
               </div>
             ))}
           </div>
