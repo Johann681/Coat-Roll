@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
-
+ 
     // 2. Send email to admin
     await transporter.sendMail({
       from: `"Coat&Roll Newsletter" <${process.env.EMAIL_USER}>`,
