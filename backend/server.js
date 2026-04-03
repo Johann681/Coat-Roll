@@ -5,6 +5,7 @@ import helmet from "helmet";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import estimateRoutes from "./routes/estimateRoutes.js";
+import newsletterRoutes from "./routes/newsletterRoutes.js";
 
 // Load env variables
 dotenv.config();
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/estimate", estimateRoutes);
+app.use("/api/newsletter", newsletterRoutes);
 
 // Server listen (Render requires 0.0.0.0 + dynamic PORT)
 const PORT = process.env.PORT || 5000;
