@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { FaPaintRoller, FaHome, FaLightbulb, FaHandshake } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutSection() {
   return (
@@ -16,11 +17,14 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <img
-              src="/outdoor4.jpg" // replace with your image
-              alt="About Coat&Roll"
-              className="rounded-2xl shadow-lg"
-            />
+            <div style={{ position: "relative", width: "100%", height: "400px" }} className="rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src="/outdoor4.jpg" // replace with your image
+                alt="About Coat&Roll"
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            </div>
           </motion.div>
 
           {/* Right Text */}

@@ -5,6 +5,7 @@ import { Heart, Sofa, Ruler } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import API_URL from "@/app/utils/api";
 
@@ -80,11 +81,14 @@ export default function WishlistSection() {
       {/* LEFT SIDE */}
       <div className="hidden lg:flex flex-1 flex-col justify-center px-6 lg:px-12 py-10 bg-white">
         <div className="flex items-center space-x-3 mb-12">
-          <img
-            src="/coat&roll.png"
-            alt="Coat and Roll Logo"
-            className="h-12 w-auto rounded-2xl"
-          />
+          <div style={{ position: "relative", width: "48px", height: "48px" }} className="rounded-2xl overflow-hidden shadow-sm">
+            <Image
+              src="/coat&roll.png"
+              alt="Coat and Roll Logo"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </div>
           <h1 className="text-3xl font-bold text-orange-600">Coat and Roll</h1>
         </div>
 

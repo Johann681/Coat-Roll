@@ -3,7 +3,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
 
 const projects = [
   {
@@ -43,8 +42,6 @@ const projects = [
 ];
 
 export default function FeaturedProjects() {
-  const [selected, setSelected] = useState<number | null>(null);
-
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-6xl mx-auto px-6 text-center">
@@ -66,7 +63,6 @@ export default function FeaturedProjects() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               className="relative group cursor-pointer overflow-hidden rounded-xl shadow-lg"
-              onClick={() => setSelected(project.id)}
             >
               <Image
                 src={project.image}

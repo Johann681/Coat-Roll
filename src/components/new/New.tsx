@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface NewsItem {
   id: number;
@@ -40,11 +41,14 @@ export default function WhatsNew() {
                 viewport={{ once: true }}
                 className="bg-gray-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
               >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-56 object-cover rounded-t-2xl"
-                />
+                <div style={{ position: "relative", width: "100%", height: "224px" }} className="rounded-t-2xl overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
                     <h4 className="text-xl font-semibold mb-2 text-gray-900">{item.title}</h4>
@@ -62,11 +66,14 @@ export default function WhatsNew() {
 
         {/* Partnership Section */}
         <div className="bg-gray-50 p-12 rounded-3xl shadow-lg flex flex-col md:flex-row items-center gap-8">
-          <img
-            src="/logo.png"
-            alt="Taolux Paint"
-            className="w-32 md:w-40 object-contain"
-          />
+          <div style={{ position: "relative", width: "128px", height: "128px" }} className="md:w-40 md:h-40 shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Taolux Paint"
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </div>
           <div className="text-center md:text-left space-y-3">
             <h3 className="text-3xl font-extrabold text-gray-900 tracking-tight">
               Partnership with Taolux Paint
