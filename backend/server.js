@@ -16,7 +16,12 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://coat-roll-i4hh.onrender.com"],
+    origin: [
+      "http://localhost:3000",
+      "https://coat-roll.vercel.app",
+      "https://coat-roll-git-main-johanns-projects-86b73528.vercel.app",
+      "https://coat-roll-jvdhrxaul-johanns-projects-86b73528.vercel.app",
+    ],
     credentials: true,
   })
 );
