@@ -1,9 +1,9 @@
-// home/ServicesSection.tsx
 "use client";
 
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 // Service data
 const services = [
@@ -11,80 +11,126 @@ const services = [
     title: "Modular Interiors",
     desc: "Functional kitchen, wardrobe and storage",
     images: ["/kitchen4.jpg", "/kitchen2.jpg"],
+    link: "/services/modular",
   },
   {
     title: "Full Home Interiors",
     desc: "Turnkey interior solutions for your home",
     images: ["/bedroom5.jpg", "/bedroom2.jpg"],
+    link: "/services/full-home",
   },
   {
     title: "Luxury Interiors",
     desc: "Tailored interiors that redefine elegance",
     images: ["/luxry.jpg", "/toilet2.jpg"],
+    link: "/services/luxury",
   },
   {
     title: "Renovations",
     desc: "Expert solutions to upgrade your home",
     images: ["/outdoor1.jpg", "/outdoor2.jpg"],
+    link: "/services/renovations",
   },
 ];
 
 export default function ServicesSection() {
   return (
-    <section className="py-32 bg-white px-6 md:px-16 overflow-x-clip">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full bg-white py-16 md:py-24 lg:py-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8">
+        {/* Header - Clean and centered */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="text-center md:text-left mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.2, 0.9, 0.4, 1] }}
+          viewport={{ once: true }}
+          className="text-center max-w-3xl mx-auto mb-12 md:mb-16 lg:mb-20"
         >
-          <h2 className="text-5xl md:text-7xl font-black text-gray-900 mb-8 tracking-tighter leading-none">
-            Your space, <br />
-            <span className="text-orange-500">Masterfully curated.</span>
+          <span className="text-[0.65rem] md:text-[0.7rem] font-medium text-[#86868b] tracking-wide uppercase bg-[#f5f5f7] px-3 py-1.5 rounded-full inline-block mb-4 md:mb-5">
+            What We Offer
+          </span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-[#1d1d1f] leading-[1.1] mb-3 md:mb-4">
+            Your space,{" "}
+            <br className="hidden sm:block" />
+            <span className="text-[#e85d04]">masterfully curated.</span>
           </h2>
-          <p className="text-gray-400 text-xl md:text-2xl max-w-3xl font-medium leading-relaxed">
-            Whether it&apos;s end-to-end interiors, renovation, or modular solutions, we provide 
-            complete care for your space from concept to completion.
+          <p className="text-[#6e6e73] text-sm md:text-base lg:text-lg font-normal max-w-2xl mx-auto leading-relaxed">
+            Whether it's end-to-end interiors, renovation, or modular solutions, 
+            we provide complete care for your space from concept to completion.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10 w-full">
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group bg-gray-50 rounded-[40px] border border-gray-100 overflow-hidden hover:bg-white hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col h-full"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.08, ease: [0.2, 0.9, 0.4, 1] }}
+              viewport={{ once: true }}
+              className="group relative bg-[#fbfbfd] rounded-2xl md:rounded-3xl overflow-hidden border border-[#e8e8ed] hover:border-[#d2d2d6] transition-all duration-400 flex flex-col h-full"
             >
-              {/* Image stack */}
-              <div className="relative w-full aspect-[4/3] overflow-hidden">
+              {/* Image Container */}
+              <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#f5f5f7]">
                 <Image
                   src={service.images[0]}
                   alt={service.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                   <span className="text-white font-bold text-sm tracking-widest uppercase">View Details</span>
+                
+                {/* Subtle gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Second image peek - Apple-style detail */}
+                <div className="absolute bottom-0 right-0 w-16 h-16 md:w-20 md:h-20 rounded-tl-2xl overflow-hidden border-t border-l border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
+                  <Image
+                    src={service.images[1]}
+                    alt={`${service.title} detail`}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               </div>
-              <div className="p-10 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="font-bold text-2xl text-gray-900 mb-4 tracking-tight group-hover:text-orange-500 transition-colors">
+
+              {/* Content */}
+              <div className="p-5 md:p-6 lg:p-7 flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <h3 className="font-semibold text-lg md:text-xl lg:text-2xl text-[#1d1d1f] mb-2 tracking-tight group-hover:text-[#e85d04] transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-gray-500 text-base font-medium leading-relaxed">{service.desc}</p>
+                  <p className="text-[#6e6e73] text-sm md:text-base font-normal leading-relaxed">
+                    {service.desc}
+                  </p>
                 </div>
-                <div className="mt-8 flex items-center text-orange-600 font-bold text-xs tracking-[0.2em] uppercase group-hover:translate-x-2 transition-transform">
-                  Explore <ChevronRight size={14} className="ml-1" />
-                </div>
+                
+                {/* Explore Link */}
+                <Link href={service.link}>
+                  <div className="mt-5 md:mt-6 flex items-center gap-1.5 text-[#86868b] group-hover:text-[#e85d04] text-xs font-medium tracking-wide uppercase transition-all duration-300 group-hover:gap-2.5 cursor-pointer">
+                    <span>Explore</span>
+                    <ChevronRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Bottom CTA - Optional but adds polish */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-center mt-12 md:mt-16 lg:mt-20"
+        >
+          <Link href="/services">
+            <button className="px-6 py-3 md:px-8 md:py-4 bg-transparent border border-[#d2d2d6] text-[#1d1d1f] font-medium text-sm md:text-base rounded-full hover:bg-[#f5f5f7] hover:border-[#c6c6cc] transition-all duration-300 active:scale-[0.98]">
+              View All Services
+            </button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

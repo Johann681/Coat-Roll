@@ -1,11 +1,10 @@
-  // components/Navbar.tsx
+// components/Navbar.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Home, Lightbulb, User, PhoneCall, LogOut, X } from "lucide-react";
-import { useEffect } from "react";
+import { Home, Lightbulb, User, PhoneCall, LogOut, X, Menu, ChevronDown } from "lucide-react";
 
 type Item = {
   name: string;
@@ -30,6 +29,7 @@ const desktopNav: Item[] = [
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<{ name: string; email?: string } | null>(null);
   const [mounted, setMounted] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -47,57 +47,61 @@ export default function Navbar() {
     localStorage.removeItem("token");
     setUser(null);
     setShowConfirm(false);
-    window.location.reload();
+    window.location.href = "/";
   };
 
   return (
     <>
-      {/* DESKTOP NAV */}
-      {/* DESKTOP NAV */}
-      <nav className="hidden md:block sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-200/50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      {/* DESKTOP NAV - Clean Apple Style */}
+      <nav className="hidden md:block sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-[#e8e8ed] transition-all duration-300">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-8 py-3 lg:py-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative w-10 h-10 transition-transform duration-300 group-hover:scale-110">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="relative w-8 h-8 lg:w-9 lg:h-9 transition-transform duration-300 group-hover:scale-105">
               <Image
                 src="/coat&roll.png"
                 alt="Coat&Roll"
                 fill
-                className="rounded-full shadow-sm"
+                className="rounded-full"
                 priority
               />
             </div>
-            <span className="text-xl font-bold tracking-tight text-gray-900 group-hover:text-orange-500 transition-colors">
+            <span className="text-lg lg:text-xl font-semibold tracking-tight text-[#1d1d1f] group-hover:text-[#e85d04] transition-colors">
               Coat&Roll
             </span>
           </Link>
 
-          {/* Links Center */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex space-x-10">
+          {/* Desktop Navigation Links */}
+          <div className="flex items-center gap-6 lg:gap-8">
             {desktopNav.map((item) => (
               <div
                 key={item.name}
-                className="relative group py-2"
-                onMouseEnter={() => setOpenDropdown(item.name)}
+                className="relative"
+                onMouseEnter={() => item.dropdown && setOpenDropdown(item.name)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <Link
-                  href={item.href}
-                  className="text-sm font-semibold text-gray-600 hover:text-black transition-colors flex items-center gap-1"
-                >
-                  {item.name}
-                  {item.dropdown && (
-                    <span className="text-[10px] opacity-50 group-hover:rotate-180 transition-transform">▼</span>
-                  )}
-                </Link>
+                {item.dropdown ? (
+                  <button className="text-sm font-medium text-[#6e6e73] hover:text-[#1d1d1f] transition-colors flex items-center gap-1 py-2">
+                    {item.name}
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === item.name ? "rotate-180" : ""}`} />
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className="text-sm font-medium text-[#6e6e73] hover:text-[#1d1d1f] transition-colors py-2"
+                  >
+                    {item.name}
+                  </Link>
+                )}
 
+                {/* Dropdown Menu */}
                 {item.dropdown && openDropdown === item.name && (
-                  <div className="absolute top-full left-0 mt-1 w-48 bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-100 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-lg rounded-xl shadow-lg border border-[#e8e8ed] overflow-hidden py-1 animate-in fade-in slide-in-from-top-2 duration-200">
                     {item.dropdown.map((sub) => (
                       <Link
                         key={sub.name}
                         href={sub.href}
-                        className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                        className="block px-4 py-2.5 text-sm font-medium text-[#6e6e73] hover:bg-[#f5f5f7] hover:text-[#e85d04] transition-colors"
                       >
                         {sub.name}
                       </Link>
@@ -108,34 +112,31 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Login / CTA */}
-          <div className="flex items-center space-x-8">
+          {/* Right Side - Auth */}
+          <div className="flex items-center gap-4">
             <Link
               href="/contact"
-              className="group flex items-center space-x-2 text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors"
+              className="hidden lg:flex items-center gap-2 text-sm font-medium text-[#6e6e73] hover:text-[#e85d04] transition-colors"
             >
-              <div className="p-2 bg-gray-50 rounded-full group-hover:bg-orange-50 transition-colors">
-                <PhoneCall size={16} />
-              </div>
-              <span className="hidden lg:inline">Contact us</span>
+              <PhoneCall size={16} />
+              <span>Contact</span>
             </Link>
 
             {mounted && (
               <>
                 {user ? (
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-3 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
-                      <div className="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 bg-[#f5f5f7] px-3 py-1.5 rounded-full">
+                      <div className="w-7 h-7 rounded-full bg-[#e85d04] flex items-center justify-center text-white font-semibold text-xs">
                         {user.name?.charAt(0).toUpperCase()}
                       </div>
-                      <span className="text-sm font-semibold text-gray-800 hidden lg:inline">
+                      <span className="text-sm font-medium text-[#1d1d1f] hidden lg:inline">
                         {user.name}
                       </span>
                     </div>
                     <button
                       onClick={() => setShowConfirm(true)}
-                      className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
-                      title="Sign Out"
+                      className="p-2 text-[#86868b] hover:text-[#ff453a] hover:bg-[#ff453a]/10 rounded-full transition-all"
                     >
                       <LogOut size={18} />
                     </button>
@@ -143,7 +144,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/login"
-                    className="px-6 py-2.5 bg-black text-white text-sm font-bold rounded-full hover:bg-gray-800 transition shadow-lg shadow-black/10 active:scale-95"
+                    className="px-5 py-2 bg-[#1d1d1f] text-white text-sm font-medium rounded-full hover:bg-[#2c2c2e] transition-all active:scale-[0.98]"
                   >
                     Sign In
                   </Link>
@@ -152,124 +153,166 @@ export default function Navbar() {
             )}
           </div>
         </div>
+      </nav>
 
-        {/* SIGN OUT CONFIRMATION MODAL */}
-        {showConfirm && (
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-[100] animate-in fade-in duration-300">
-            <div className="bg-white/90 backdrop-blur-2xl rounded-[32px] p-8 max-w-sm w-full mx-4 shadow-2xl border border-white/20 transform transition-all animate-in zoom-in-95 duration-300">
-              <div className="flex justify-between items-start mb-6">
-                <div className="p-4 bg-red-50 rounded-2xl text-red-500">
-                  <LogOut size={28} />
+      {/* MOBILE TOP NAVBAR - Clean, minimal, left-aligned */}
+      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-b border-[#e8e8ed]">
+        <div className="flex items-center justify-between px-5 py-3">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <div className="relative w-8 h-8">
+              <Image
+                src="/coat&roll.png"
+                alt="Coat&Roll"
+                fill
+                className="rounded-full"
+                priority
+              />
+            </div>
+            <span className="text-lg font-semibold tracking-tight text-[#1d1d1f]">
+              Coat&Roll
+            </span>
+          </Link>
+
+          {/* Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-full bg-[#f5f5f7] text-[#1d1d1f]"
+          >
+            <Menu size={22} />
+          </button>
+        </div>
+
+        {/* Mobile Menu Panel */}
+        {mobileMenuOpen && (
+          <div className="absolute top-full left-0 right-0 bg-white border-b border-[#e8e8ed] shadow-lg max-h-[80vh] overflow-y-auto animate-in slide-in-from-top duration-200">
+            <div className="flex flex-col p-5 gap-4">
+              {desktopNav.map((item) => (
+                <div key={item.name}>
+                  {item.dropdown ? (
+                    <>
+                      <button className="w-full text-left text-base font-medium text-[#1d1d1f] py-2">
+                        {item.name}
+                      </button>
+                      <div className="ml-4 mt-1 flex flex-col gap-2">
+                        {item.dropdown.map((sub) => (
+                          <Link
+                            key={sub.name}
+                            href={sub.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-sm text-[#6e6e73] py-2 hover:text-[#e85d04] transition-colors"
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-base font-medium text-[#1d1d1f] py-2"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </div>
-                <button
-                  onClick={() => setShowConfirm(false)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <X size={20} className="text-gray-400" />
-                </button>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">Sign Out</h3>
-              <p className="text-gray-500 mb-8 font-medium leading-relaxed">
-                Are you sure you want to sign out of your account? You&apos;ll need to sign in again to access your dashboard.
-              </p>
-              <div className="flex flex-col gap-3">
-                <button
-                  onClick={handleLogout}
-                  className="w-full px-6 py-4 bg-red-500 text-white font-bold rounded-2xl hover:bg-red-600 transition shadow-lg shadow-red-200 active:scale-[0.98]"
-                >
-                  Sign Out
-                </button>
-                <button
-                  onClick={() => setShowConfirm(false)}
-                  className="w-full px-6 py-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition active:scale-[0.98]"
-                >
-                  Cancel
-                </button>
+              ))}
+              
+              <div className="pt-4 mt-2 border-t border-[#e8e8ed]">
+                {mounted && !user && (
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full text-center px-5 py-3 bg-[#1d1d1f] text-white font-medium rounded-xl"
+                  >
+                    Sign In
+                  </Link>
+                )}
               </div>
             </div>
           </div>
         )}
       </nav>
 
-      {/* MOBILE BOTTOM DOCK */}
-      <nav className="md:hidden fixed bottom-6 left-4 right-4 bg-white/80 backdrop-blur-2xl border border-white/20 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-50 overflow-hidden">
-        <div className="px-2">
-          <div className="grid grid-cols-5 items-center h-20">
-            <Link
-              href="/"
-              className="flex flex-col items-center justify-center gap-1 group"
-            >
-              <div className="p-2 group-hover:bg-orange-50 rounded-2xl transition-colors">
-                <Home size={22} className="text-gray-600 group-hover:text-orange-500" />
-              </div>
-              <span className="text-[10px] font-bold text-gray-400 group-hover:text-orange-500 tracking-widest">HOME</span>
-            </Link>
+      {/* MOBILE BOTTOM DOCK - Professional, minimal */}
+      <nav className="md:hidden fixed bottom-5 left-5 right-5 bg-white/95 backdrop-blur-xl rounded-2xl shadow-lg border border-[#e8e8ed] z-50">
+        <div className="grid grid-cols-5 items-center h-16 px-2">
+          <Link href="/" className="flex flex-col items-center justify-center gap-0.5 group">
+            <Home size={20} className="text-[#86868b] group-hover:text-[#e85d04] transition-colors" />
+            <span className="text-[0.5rem] font-medium text-[#86868b] group-hover:text-[#e85d04] tracking-wide">Home</span>
+          </Link>
 
-            <Link
-              href="/design-ideas"
-              className="flex flex-col items-center justify-center gap-1 group"
-            >
-              <div className="p-2 group-hover:bg-orange-50 rounded-2xl transition-colors">
-                <Lightbulb size={22} className="text-gray-600 group-hover:text-orange-500" />
-              </div>
-              <span className="text-[10px] font-bold text-gray-400 group-hover:text-orange-500 tracking-widest uppercase">IDEAS</span>
-            </Link>
+          <Link href="/design-ideas" className="flex flex-col items-center justify-center gap-0.5 group">
+            <Lightbulb size={20} className="text-[#86868b] group-hover:text-[#e85d04] transition-colors" />
+            <span className="text-[0.5rem] font-medium text-[#86868b] group-hover:text-[#e85d04] tracking-wide">Ideas</span>
+          </Link>
 
-            {/* Center: FAB */}
-            <div className="flex flex-col items-center justify-center relative">
-              <Link
-                href="/estimate"
-                className="group relative -top-8"
-              >
-                <div className="absolute inset-0 bg-orange-500/20 blur-xl rounded-full group-hover:bg-orange-500/40 transition-colors" />
-                <div className="relative rounded-full border-4 border-white shadow-2xl bg-black p-1 transform group-hover:scale-110 transition duration-300">
-                  <div className="rounded-full overflow-hidden w-14 h-14 relative bg-white">
-                    <Image
-                      src="/coat&roll.png"
-                      alt="Coat&Roll"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-              </Link>
-              <span className="absolute bottom-2 text-[10px] font-black text-orange-600 tracking-tighter uppercase">START</span>
+          {/* Center CTA */}
+          <Link href="/estimate" className="flex flex-col items-center justify-center relative">
+            <div className="absolute -top-8 w-12 h-12 bg-[#e85d04] rounded-full flex items-center justify-center shadow-lg shadow-[#e85d04]/20">
+              <div className="relative w-10 h-10">
+                <Image
+                  src="/coat&roll.png"
+                  alt="Start"
+                  fill
+                  className="rounded-full border-2 border-white"
+                />
+              </div>
             </div>
+            <span className="text-[0.5rem] font-semibold text-[#e85d04] tracking-wide mt-6">Start</span>
+          </Link>
 
-            <Link
-              href="/contact"
-              className="flex flex-col items-center justify-center gap-1 group"
-            >
-              <div className="p-2 group-hover:bg-orange-50 rounded-2xl transition-colors">
-                <PhoneCall size={22} className="text-gray-600 group-hover:text-orange-500" />
-              </div>
-              <span className="text-[10px] font-bold text-gray-400 group-hover:text-orange-500 tracking-widest uppercase">HELP</span>
+          <Link href="/contact" className="flex flex-col items-center justify-center gap-0.5 group">
+            <PhoneCall size={20} className="text-[#86868b] group-hover:text-[#e85d04] transition-colors" />
+            <span className="text-[0.5rem] font-medium text-[#86868b] group-hover:text-[#e85d04] tracking-wide">Help</span>
+          </Link>
+
+          {mounted && user ? (
+            <button onClick={() => setShowConfirm(true)} className="flex flex-col items-center justify-center gap-0.5 group">
+              <LogOut size={20} className="text-[#86868b] group-hover:text-[#ff453a] transition-colors" />
+              <span className="text-[0.5rem] font-medium text-[#86868b] group-hover:text-[#ff453a] tracking-wide">sign out</span>
+            </button>
+          ) : (
+            <Link href="/login" className="flex flex-col items-center justify-center gap-0.5 group">
+              <User size={20} className="text-[#86868b] group-hover:text-[#e85d04] transition-colors" />
+              <span className="text-[0.5rem] font-medium text-[#86868b] group-hover:text-[#e85d04] tracking-wide">Sign In</span>
             </Link>
-
-            {mounted && user ? (
-              <button
-                onClick={() => setShowConfirm(true)}
-                className="flex flex-col items-center justify-center gap-1 group"
-              >
-                <div className="p-2 group-hover:bg-red-50 rounded-2xl transition-colors">
-                  <LogOut size={22} className="text-gray-600 group-hover:text-red-500" />
-                </div>
-                <span className="text-[10px] font-bold text-gray-400 group-hover:text-red-500 tracking-widest uppercase">EXIT</span>
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="flex flex-col items-center justify-center gap-1 group"
-              >
-                <div className="p-2 group-hover:bg-orange-50 rounded-2xl transition-colors">
-                  <User size={22} className="text-gray-600 group-hover:text-orange-500" />
-                </div>
-                <span className="text-[10px] font-bold text-gray-400 group-hover:text-orange-500 tracking-widest uppercase">IN</span>
-              </Link>
-            )}
-          </div>
+          )}
         </div>
       </nav>
+
+      {/* SIGN OUT CONFIRMATION MODAL */}
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-xl">
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-12 h-12 rounded-full bg-[#ff453a]/10 flex items-center justify-center">
+                <LogOut size={22} className="text-[#ff453a]" />
+              </div>
+              <button onClick={() => setShowConfirm(false)} className="p-1">
+                <X size={18} className="text-[#86868b]" />
+              </button>
+            </div>
+            <h3 className="text-xl font-semibold text-[#1d1d1f] mb-2">Sign Out</h3>
+            <p className="text-sm text-[#6e6e73] mb-6">Are you sure you want to sign out?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleLogout}
+                className="flex-1 px-4 py-3 bg-[#ff453a] text-white font-medium rounded-xl hover:bg-[#ff3b30] transition-colors"
+              >
+                Sign Out
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="flex-1 px-4 py-3 bg-[#f5f5f7] text-[#1d1d1f] font-medium rounded-xl hover:bg-[#e8e8ed] transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
