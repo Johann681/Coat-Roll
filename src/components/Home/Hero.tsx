@@ -6,7 +6,9 @@ import Link from "next/link";
 
 export default function Hero() {
   // Smooth, light easing curves – Apple-like fluidity
-  const springTransition = { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] };
+  // FIX: Removed custom ease array for whileHover/whileTap compatibility
+  const springTransition = { duration: 0.4 }; // Simple duration for hover/tap
+  
   const fadeUp = {
     initial: { y: 24, opacity: 0 },
     whileInView: { y: 0, opacity: 1 },
